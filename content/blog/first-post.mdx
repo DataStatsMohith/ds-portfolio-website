@@ -1,0 +1,42 @@
+---
+title: "Building a Real-Time Recommendation Engine"
+date: "2025-02-21"
+description: "Lessons learned from deploying collaborative filtering at scale"
+---
+
+## The Challenge
+
+Most recommendation systems fail in production because they can't handle cold-start users or scale to millions of items. Here's how I solved both.
+
+## Architecture Overview
+
+I used a hybrid approach combining:
+
+- **Collaborative Filtering** for users with history
+- **Content-Based** for cold-start scenarios  
+- **Real-time feature store** for sub-50ms latency
+
+## Key Technical Decisions
+
+### Why FastAPI over Flask?
+
+Async request handling meant 10x throughput with the same hardware.
+
+### Feature Store Design
+
+Redis for hot features, PostgreSQL for historical. TTL-based eviction prevents memory bloat.
+
+## Results
+
+- 87% recommendation accuracy
+- 45ms p99 latency
+- 0 downtime during model updates
+
+## Code Snippet
+
+```python
+@app.post("/recommend")
+async def get_recommendations(user_id: str):
+    features = await feature_store.get(user_id)
+    predictions = model.predict(features)
+    return {"recommendations": predictions}

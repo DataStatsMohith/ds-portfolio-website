@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Inter, JetBrains_Mono } from "next/font/google"
+import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
 import "./globals.css"
 import { Nav } from "@/components/nav"
@@ -17,6 +17,12 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 })
 
+const playfairDisplay = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+})
+
 export const metadata: Metadata = {
   title: "Mohit Sai Sekharamahanthi | Data Scientist & ML Engineer",
   description: "Data Scientist with 2+ years at Capgemini, MSc Data Science. Building production ML systems.",
@@ -29,7 +35,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans bg-[var(--portfolio-bg)] text-[var(--portfolio-text)] antialiased`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} ${playfairDisplay.variable} font-sans bg-[var(--portfolio-bg)] text-[var(--portfolio-text)] antialiased`}>
         <Nav />
         <div className="pt-16">
           {children}
